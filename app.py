@@ -6,6 +6,7 @@ from PIL import Image, ImageTk
 
 from database import Database
 
+#hola
 
 class administrador:
     def __init__(self, db):
