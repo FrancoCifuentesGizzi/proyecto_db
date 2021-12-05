@@ -5,7 +5,7 @@ class Database:
         self.cursor = None
         try:  # Intenta conectarse a la base de datos
             self.db = mysql.connector.connect ( host="localhost",
-                                                user="test", passwd="test", database="db_test1" )
+                                                user="proyecto", passwd="pass123", database="goodtech" )
             self.cursor = self.db.cursor ()
             print("Conectado exitosamente")
         except mysql.connector.Error as err:  # Si no puede, avisa

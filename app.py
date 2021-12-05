@@ -5,37 +5,7 @@ from tkinter import Button
 from PIL import Image, ImageTk
 
 from database import Database
-
-#hola
-
-class administrador:
-    def __init__(self, db):
-        self.db = db
-        # Main window
-        window = tk.Tk ()
-
-        # Algunas especificaciones de tamaño y título de la ventana
-        window.geometry ( "760x420" )
-        window.title ( "Administrador" )
-        # color de ventana
-        window.config(background = "goldenrod")
-
-        frame = LabelFrame ( window, text="", relief=tk.FLAT )
-        frame.place ( x=151, y=10, relwidth=0.6, relheight=0.7 )
-
-        image = Image.open ( "foto2.jpg" )
-        photo = ImageTk.PhotoImage ( image.resize ( (480, 300), Image.ANTIALIAS ) )
-        label = Label ( frame, image=photo )
-        label.image = photo
-        label.pack ()
-
-        # Empieza a correr la interfaz.
-        window.mainloop ()
-
-
-
-
-
+from cliente import cliente
 
 class App:
     def __init__(self, db):
@@ -56,32 +26,31 @@ class App:
         # Empieza a correr la interfaz.
         self.root.mainloop ()
 
-
     # botones principales.
     def __crea_botones_principales(self):
         padx = 2
         pady = 2
 
         #
-        frame = LabelFrame ( self.root, text="Seleccionar perfil", relief=tk.GROOVE )
+        frame = LabelFrame ( self.root, text="", relief=tk.GROOVE )
         frame.place ( x=144, y=315, width=475,  relheight=0.13 )
         frame.config ( background="royalblue4" )
 
         #
-        b1 = Button ( frame, text="Administrador", width=20 )
+        b1 = Button ( frame, text="Cliente", width=20 )
         b1.grid ( row=1, column=0, padx=padx, pady=pady )
-        b1.bind ( '<Button-1>', administrador )
+        b1.bind ( '<Button-1>', self.__mostrar_clientes)
         b1.config(background = "cyan4")
 
         #
-        b2 = Button ( frame, text="Empleado sucursal", width=20 )
+        b2 = Button ( frame, text="Venta", width=20 )
         b2.grid ( row=1, column=2, padx=padx, pady=pady )
-        b2.bind ( '<Button-1>', self.__graficos )
+        #b2.bind ( '<Button-1>', empleado_suc)
         b2.config ( background="cyan4" )
 
-        b3 = Button ( frame, text="Administración de bodega", width=20 )
+        b3 = Button ( frame, text="Detalle de venta", width=20 )
         b3.grid ( row=1, column=3, padx=padx, pady=pady )
-        b3.bind ( '<Button-1>', self.__graficos )
+
         b3.config ( background="cyan4" )
 
     # imagen principal.
@@ -97,24 +66,8 @@ class App:
         label.pack ()
 
 
-
-
-
-
-
-
-
-    # muestra ventana equipos.
-    def __mostrar_equipos(self):
-        equipo ( self.root, self.db )
-
-    # muestra ventana jugadores.
-    def __mostrar_jugadores(self, button):
-        jugador ( self.root, self.db )
-
-    def __graficos(self, button):
-        graficos ( self.root, self.db )
-
+    def __mostrar_clientes(self, button):
+        cliente( self.root, self.db )
 
 def main():
     # Conecta a la base de datos
