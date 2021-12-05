@@ -8,6 +8,7 @@ class Database:
                                                 user="proyecto", passwd="pass123", database="goodtech" )
             self.cursor = self.db.cursor ()
             print("Conectado exitosamente")
+            print ( "GOOD - TECH" )
         except mysql.connector.Error as err:  # Si no puede, avisa
             print("No conectó a la base de datos")
             print(err)

@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 
-
 class cliente:  # Clase de equipo, puede llamar a las clases de insertar y modificar
     def __init__(self, root, db):
         self.db = db
@@ -37,11 +36,11 @@ class cliente:  # Clase de equipo, puede llamar a las clases de insertar y modif
 
     def __config_buttons_cliente(self):  # Botones de insertar, modificar y eliminar
         tk.Button ( self.root, text="Insertar Cliente",
-                    command=self.insertar_cliente ).place ( x=20, y=350, width=200, height=50 )
+                    command=self.insertar_cliente ).place ( x=60, y=350, width=200, height=50 )
         tk.Button ( self.root, text="Modificar Cliente",
-                    command=self.modificar_cliente ).place ( x=220, y=350, width=200, height=50 )
+                    command=self.modificar_cliente ).place ( x=260, y=350, width=200, height=50 )
         tk.Button ( self.root, text="Eliminar Cliente",
-                    command=self.eliminar_cliente ).place ( x=420, y=350, width=200, height=50 )
+                    command=self.eliminar_cliente ).place ( x=460, y=350, width=200, height=50 )
 
     def llenar_treeview_cliente(self):  # Se llena el treeview de datos.
         sql = "select * from cliente"
@@ -84,7 +83,7 @@ class insertar_cliente:  # Clase para insertar data
         self.__config_button ()
 
     def __config_window(self):  # Settings
-        self.insert_datos.geometry ( '300x270' )
+        self.insert_datos.geometry ( '270x250' )
         self.insert_datos.title ( "Insertar Cliente" )
         self.insert_datos.resizable ( width=0, height=0 )
 
@@ -109,12 +108,12 @@ class insertar_cliente:  # Clase para insertar data
 
     def __config_button(self):  # Se configura el boton
         tk.Button ( self.insert_datos, text="Aceptar",
-                    command=self.__insertar ).place ( x=50, y=200, width=200, height=30 )
+                    command=self.__insertar ).place ( x=35, y=200, width=200, height=30 )
 
     def __insertar(self):  # Insercion en la base de datos.
         sql = """insert into cliente (rut_cliente, nombre_cli, apellido_cli, direccion_cli, telefono_cli) 
                 values (%(rut_cliente)s, %(nombre_cli)s, %(apellido_cli)s, %(direccion_cli)s, %(telefono_cli)s)"""
-        self.db.run_sql ( sql, {"rut_cliente": int (self.entry_rut.get ()),
+        self.db.run_sql ( sql, {"rut_cliente": self.entry_rut.get (),
                                 "nombre_cli": self.entry_nombre.get (),
                                 "apellido_cli": self.entry_apellido.get (),
                                 "direccion_cli": self.entry_direccion.get (),
@@ -134,15 +133,13 @@ class modificar_cliente:  # Clase para modificar
         self.config_entry ()
         self.config_button ()
 
-        print(self.row_data)
-
     def config_window(self):  # Configuración de la ventana.
-        self.insert_datos.geometry ( '300x270' )
+        self.insert_datos.geometry ( '270x250' )
         self.insert_datos.title ( "Modificar Cliente" )
         self.insert_datos.resizable ( width=0, height=0 )
 
     def config_label(self):  # Se configuran las etiquetas.
-        #tk.Label ( self.row_data[0] ).place ( x=10, y=10, width=80, height=20 )
+        tk.Label ( self.insert_datos, text= " Rut de cliente: " + (self.row_data[0]) ).place ( x=35, y=10, width=200, height=20 )
         tk.Label ( self.insert_datos, text="Nombre: " ).place ( x=10, y=40, width=80, height=20 )
         tk.Label ( self.insert_datos, text="Apellido: " ).place ( x=10, y=70, width=80, height=20 )
         tk.Label ( self.insert_datos, text="Dirección: " ).place ( x=10, y=100, width=80, height=20 )
@@ -160,7 +157,7 @@ class modificar_cliente:  # Clase para modificar
 
     def config_button(self):  # Botón aceptar, llama a la función modificar cuando es clickeado.
         tk.Button ( self.insert_datos, text="Aceptar",
-                    command=self.modificar ).place ( x=50, y=200, width=200, height=20 )
+                    command=self.modificar ).place ( x=35, y=190, width=200, height=30 )
 
     def modificar(self):  # Insercion en la base de datos.
         sql = """update cliente set nombre_cli = %(nombre_cli)s, apellido_cli = %(apellido_cli)s, direccion_cli = %(direccion_cli)s, telefono_cli = %(telefono_cli)s
@@ -169,6 +166,6 @@ class modificar_cliente:  # Clase para modificar
                                 "apellido_cli": self.entry_apellido.get(),
                                 "direccion_cli": self.entry_direccion.get(),
                                 "telefono_cli": self.entry_telefono.get(),
-                                "rut_cliente": int ( self.row_data[0])} )
+                                "rut_cliente": self.row_data[0]} )
         self.insert_datos.destroy ()
         self.padre.llenar_treeview_cliente ()
