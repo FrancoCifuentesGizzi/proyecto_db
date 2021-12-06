@@ -168,10 +168,9 @@ class editar_producto:  # Clase para modificar
         self.combo_bodega.place(x = 100, y = 70, width = 100, height = 20)
         self.combo_bodega["values"], self.ids = self.__fill_combo_bodega ()
         self.entry_nombre.insert ( 0, self.row_data[1] )
-        self.entry_direccion.insert ( 0, self.row_data[2] )
-        self.entry_telefono.insert ( 0, self.row_data[3] )
-        self.combo_marca.insert ( 0, self.row_data[4] )
-        self.combo_bodega.insert ( 0, self.row_data[5] )
+        self.entry_precio.insert ( 0, self.row_data[2] )
+        self.combo_marca.insert ( 0, self.row_data[3] )
+        self.combo_bodega.insert ( 0, self.row_data[4] )
 
         # Configuración de los botones
 
