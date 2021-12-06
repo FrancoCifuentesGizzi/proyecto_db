@@ -51,12 +51,12 @@ class marca:
             self.data = data  # Actualiza la data
 
     def __Agregar_M(self):
-        Add_marca(self.db, self)
+        Add_Marca(self.db, self)
 
     def __Editar_M(self):
         sql = "select * from marca where id_marca = %(id_marca)s"
         row_data = self.db.run_select_filter ( sql, {"id_marca": self.treeview.focus ()} )[0]
-        editar_marca ( self.db, self, row_data )
+        Editar_Marca ( self.db, self, row_data )
 
     def __Eliminar_M(self):
         sql = "delete from marca where id_marca = %(id_marca)s"
@@ -100,7 +100,7 @@ class Add_Marca:
         self.padre.llenar_treeview_marca ()
 
 #Editar en la tabla
-class editar_Marca:
+class Editar_Marca:
     def __init__(self, db, padre, row_data):
         self.padre = padre
         self.db = db

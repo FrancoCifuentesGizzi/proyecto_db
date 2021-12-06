@@ -114,7 +114,7 @@ class Add_bodega:
         return [i[1] for i in self.data], [i[0] for i in self.data]
 
     def __insertar(self):  # Insercion en la base de datos.
-        sql = """insert into bodega (nombre_bod, direccion_bod, telefono_bod, ciudad_id_ciudad ) 
+        sql = """insert into bodega (nombre_bod, direccion_bod, telefono_bod, ciudad_id_ciudad )
             values (%(nombre_bod)s, %(direccion_bod)s, %(telefono_bod)s, %(ciudad_id_ciudad)s)"""
         self.db.run_sql ( sql, {"nombre_bod": self.entry_nombre.get (),
                                 "direccion_bod": self.entry_direccion.get (),
@@ -172,7 +172,7 @@ class editar_bodega:  # Clase para modificar
                     command=self.modificar ).place ( x=55, y=160, width=105, height=25 )
 
     def modificar(self):  # Insercion en la base de datos.
-        sql = """update bodega set nombre_bod = %(nombre_bod)s, direccion_bod = %(direccion_bod)s, 
+        sql = """update bodega set nombre_bod = %(nombre_bod)s, direccion_bod = %(direccion_bod)s,
                 telefono_bod = %(telefono_bod)s, ciudad_id_ciudad = %(id_ciudad)s
                 where id_bodega = %(id_bodega)s"""
         self.db.run_sql ( sql, {"nombre_bod": self.entry_nombre.get (),
@@ -187,4 +187,3 @@ class editar_bodega:  # Clase para modificar
         sql = "select id_ciudad, nombre_ciu from ciudad"
         self.data = self.db.run_select ( sql )
         return [i[1] for i in self.data], [i[0] for i in self.data]
-

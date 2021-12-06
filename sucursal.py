@@ -1,8 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 
-# !!importar la bodega!!
-
 class sucursal:
     #Configuración de la ventana principal
     def __init__(self, root, db):
@@ -15,6 +13,7 @@ class sucursal:
         self.root.title("Sucursales")
         self.root.resizable(width=0, height=0)
         self.root.transient(root)
+
         self.__config_treeview_sucursales()
         self.__config_buttons_sucursal()
 
@@ -47,8 +46,8 @@ class sucursal:
         tk.Button(self.root, command = self.__Eliminar_S, text="Eliminar sucursal").place(x = 732, y = 350, width = 366, height = 50)
 
     def llenar_treeview_sucursal(self):
-        sql = """select id_sucursal, nombre_suc, direccion_suc, telefono_suc, ciudad.nombre_ciu, bodega.nombre_bod 
-           from sucursal join ciudad on sucursal.ciudad_id_ciudad = ciudad.id_ciudad 
+        sql = """select id_sucursal, nombre_suc, direccion_suc, telefono_suc, nombre_ciu, nombre_bod
+           from sucursal join ciudad on sucursal.ciudad_id_ciudad = ciudad.id_ciudad
            join bodega on sucursal.bodega_id_bodega = bodega.id_bodega"""
         data = self.db.run_select ( sql )
 
@@ -106,17 +105,16 @@ class Add_Sucursal:
         self.entry_direccion.place(x = 100, y = 30, width = 100, height = 20)
         self.entry_telefono = tk.Entry(self.add)
         self.entry_telefono.place(x = 100, y = 50, width = 100, height = 20)
-        self.combociudad = ttk.Combobox(self.add)
-        self.combociudad.place(x = 100, y = 70, width = 100, height = 20)
-        self.combociudad["values"], self.ids = self.__fill_combo_ciudad ()
+        self.combo_ciudad = ttk.Combobox(self.add)
+        self.combo_ciudad.place(x = 100, y = 70, width = 100, height = 20)
+        self.combo_ciudad["values"], self.ids = self.__fill_combo_ciudad ()
         self.combobodega = ttk.Combobox(self.add)
         self.combobodega.place(x = 100, y = 90, width = 100, height = 20)
         self.combobodega["values"], self.ids = self.__fill_combo_bodega ()
 
         #Configuración de los botones
     def __config_buttons(self):
-        tk.Button(self.add, text="Aceptar",
-                  command = self.__insertar).place(x = 55, y = 120, width = 105, height = 30)
+        tk.Button(self.add, text="Aceptar", command = self.__insertar).place(x = 55, y = 120, width = 105, height = 30)
 
     def __fill_combo_ciudad(self):
         sql = "select id_ciudad, nombre_ciu from ciudad"
@@ -129,12 +127,12 @@ class Add_Sucursal:
         return [i[1] for i in self.data], [i[0] for i in self.data]
 
     def __insertar(self):  # Insercion en la base de datos.
-        sql = """insert sucursal (nombre_suc, direccion_suc, telefono_suc, ciudad_id_ciudad, bodega_id_bodega ) 
+        sql = """insert into sucursal (nombre_suc, direccion_suc, telefono_suc, ciudad_id_ciudad, bodega_id_bodega )
             values (%(nombre_suc)s, %(direccion_suc)s, %(telefono_suc)s, %(ciudad_id_ciudad)s, %(bodega_id_bodega)s);"""
         self.db.run_sql ( sql, {"nombre_suc": self.entry_nombre.get (),
                                 "direccion_suc": self.entry_direccion.get (),
                                 "telefono_suc": self.entry_telefono.get (),
-                                "ciudad_id_ciudad": self.ids[self.combociudad.current ()],
+                                "ciudad_id_ciudad": self.ids[self.combo_ciudad.current ()],
                                 "bodega_id_bodega": self.ids[self.combobodega.current ()]} )
         self.add.destroy ()
         self.padre.llenar_treeview_sucursal ()
@@ -188,7 +186,7 @@ class editar_sucursal:  # Clase para modificar
                     command=self.modificar ).place ( x=55, y=160, width=105, height=25 )
 
     def modificar(self):  # Insercion en la base de datos.
-        sql = """update bodega set nombre_bod = %(nombre_bod)s, direccion_bod = %(direccion_bod)s, 
+        sql = """update bodega set nombre_bod = %(nombre_bod)s, direccion_bod = %(direccion_bod)s,
                 telefono_bod = %(telefono_bod)s, ciudad_id_ciudad = %(id_ciudad)s
                 where id_bodega = %(id_bodega)s"""
         self.db.run_sql ( sql, {"nombre_bod": self.entry_nombre.get (),
