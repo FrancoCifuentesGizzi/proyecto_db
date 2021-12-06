@@ -61,10 +61,9 @@ class cliente:  # Clase de equipo, puede llamar a las clases de insertar y modif
         insertar_cliente( self.db, self )
 
     def modificar_cliente(self):
-        if (self.treeview.focus () != ""):
-            sql = "select * from cliente where rut_cliente = %(rut_cliente)s"
-            row_data = self.db.run_select_filter ( sql, {"rut_cliente": self.treeview.focus ()} )[0]
-            modificar_cliente ( self.db, self, row_data )
+        sql = "select * from cliente where rut_cliente = %(rut_cliente)s"
+        row_data = self.db.run_select_filter ( sql, {"rut_cliente": self.treeview.focus ()} )[0]
+        modificar_cliente ( self.db, self, row_data )
 
     def eliminar_cliente(self):
         sql = "delete from cliente where rut_cliente = %(rut_cliente)s"

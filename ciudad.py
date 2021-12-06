@@ -8,14 +8,15 @@ class ciudad:
         self.data = []
 
         self.root = tk.Toplevel()
-        self.root.geometry('300x400')
-        self.root.title("Ciudades")
+        self.root.geometry ('300x400')
+        self.root.title ( "Ciudades" )
         self.root.resizable(width=0, height=0)
         self.root.transient(root)
         #Contenido Ventana
         self.__config_treeview_ciudad()
         self.__config_buttons_ciudad()
 
+        self.root.mainloop ()
 
     #Configuración de las tablas y su tamaño
     def __config_treeview_ciudad(self):
@@ -24,10 +25,10 @@ class ciudad:
         self.treeview.heading("#0", text = "Id")
         self.treeview.heading("#1", text = "Nombre")
         self.treeview.column("#0", minwidth = 100, width = 100, stretch = False)
-        self.treeview.column("#1", minwidth = 200, width = 200, stretch = False)
+        self.treeview.column("#1", minwidth = 130, width = 200, stretch = False)
         self.treeview.place(x = 0, y = 0, height = 350, width = 300)
         self.llenar_treeview_ciudades()
-
+        self.root.after ( 0, self.llenar_treeview_ciudades )
 
     #Configuración de los botones
     def __config_buttons_ciudad(self):
@@ -36,7 +37,7 @@ class ciudad:
         tk.Button(self.root, command = self.__Eliminar_C, text="Eliminar").place(x = 200, y = 350, width = 100, height = 50)
 
     def llenar_treeview_ciudades(self):  # Se llena el treeview de datos.
-        sql = "select * from ciudad"
+        sql = """select * from ciudad;"""
         # Ejecuta el select
         data = self.db.run_select ( sql )
 
@@ -45,9 +46,8 @@ class ciudad:
             # Elimina todos los rows del treeview
             self.treeview.delete ( *self.treeview.get_children () )
             for i in data:
-                # Inserta los datos
-                self.treeview.insert ( "", "end", text=i[0],
-                                       values=(i[1]), iid=i[0] )
+                self.treeview.insert ( "", "end", text=(i[0]),
+                                       values= (i[1], i[1]), iid =i[0])
             self.data = data  # Actualiza la data
 
     def __Agregar_C(self):
@@ -109,14 +109,16 @@ class editar_ciudad:  # Clase para modificar
         self.__config_label ()
         self.__config_entry ()
         self.__config_button ()
+        print ( self.row_data )
 
     def config_window(self):  # Configuración de la ventana.
         self.insert_datos.geometry ( '250x110' )
         self.insert_datos.title ( "Editar datos" )
         self.insert_datos.resizable ( width=0, height=0 )
 
+
     def __config_label(self):
-        tk.Label ( self.insert_datos, text= "Modificar " + (self.row_data[1]) ).place ( x=60, y=10, width=100, height=20 )
+        tk.Label ( self.insert_datos, text= "Modificar " + (self.row_data[1]) ).place ( x=5, y=10, width=250, height=20 )
         tk.Label ( self.insert_datos, text="Nombre: " ).place ( x=0, y=40, width=100, height=20 )
 
         # Configuración de las casillas que el usuario ingresa info
